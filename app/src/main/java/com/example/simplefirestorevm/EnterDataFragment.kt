@@ -2,6 +2,7 @@ package com.example.simplefirestorevm
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -47,7 +48,25 @@ class EnterDataFragment : Fragment() {
             }
         }
 
+        binding.btnAdd.setOnClickListener {
+            val sRaum = binding.etRoom.text.toString()
+            val sTemp = binding.etTemp.text.toString()
+            val sHum = binding.etAir.text.toString()
+            val sDate = binding.etDate.text.toString()
+
+            if (sRaum.isEmpty() || sTemp.isEmpty() || sHum.isEmpty() || sDate.isEmpty()) {
+                Log.i(">>>>", "Eingabefehler: Data Missing")
+            } else {
+                dbvm.writeDataToFirestore(sRaum, sTemp, sHum, sDate)
+                Log.i(">>>>", "$sRaum $sTemp $sHum $sDate")
+            }
+        }
     }
+
+    private fun writeDataToDb() {
+
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
