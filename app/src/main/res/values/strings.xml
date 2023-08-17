@@ -1,10 +1,17 @@
 <resources>
     <string name="app_name">FirebaseAuthVM</string>
-    <string name="action_login">Login or Register</string>
-    <string name="action_logout">Logout</string>
+
     <!-- Strings used for fragments for navigation -->
+    <string name="action_login">Login</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_enter_data">Datenerfassung</string>
+    <string name="action_filter_data">Datenabfrage</string>
+    <string name="action_login_status">Login Status</string>
+
     <string name="signin_fragment_label">Login/Register</string>
     <string name="loginstatus_fragment_label">Login Status</string>
+    <string name="enter_data_fragment_label">Datenerfassung</string>
+    <string name="filter_data_fragment_label">Datenabruf</string>
 
     <string name="welcome">Aktueller Login-Status</string>
 
@@ -13,6 +20,9 @@
     <string name="loggederror">Login-Fehler \n %s</string>
     <string name="processing">Anmeldung läuft ...</string>
     <string name="pwresetting">PW zurücksetzen.\nPrüfen Sie Ihre E-Mails.</string>
+    <string name="loggedinNOK">Bitte anmelden!</string>
+    <string name="loggedinOK">angemeldet</string>
+
 
     <string name="buttonLogin">Login</string>
     <string name="buttonRegister">Neuer Account</string>
@@ -25,8 +35,27 @@
     <string name="forgotPw_msg">Geben Sie Ihre E-Mail Adresse an.</string>
 
 
-
     <string name="required">Bitte einen gültigen Eintrag vornehmen!</string>
+
+    <string name="btn">Hinzufügen</string>
+    <string name="txt1">Ort</string>
+    <string name="txt2">Temperatur</string>
+    <string name="txt3">Luftfeuchte</string>
+    <string name="txt4">Zeit DD.MM.YYYY HH:MM</string>
+
+    <string name="menu_enter">Daten eintragen</string>
+    <string name="menu_search">Daten filtern</string>
+    <string name="filterLoc">Filter nach Ort</string>
+    <string name="filterTemp">Filter Temp >= </string>
+    <string name="filterDate">Filter Datum</string>
+    <string name="filterHot">Filter wärmste top</string>
+    <string name="filterDelete">Lösche ID </string>
+    <string name="filterReset">Filter zurücksetzen</string>
+    <string name="hintLoc">Ort</string>
+    <string name="hintTemp">Temp</string>
+    <string name="hintDate">TT.MM.YYYY</string>
+    <string name="hintDelete">ID</string>
+    <string name="hintHot">Anzahl Top X</string>
 
 
 </resources>

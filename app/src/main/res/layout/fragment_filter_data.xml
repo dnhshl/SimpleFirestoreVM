@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FilterDataFragment">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:stretchColumns="1">
+
+
+            <TableRow android:padding="5dip">
+
+                <Button
+                    android:id="@+id/button_filter_loc"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:text="@string/filterLoc" />
+
+                <EditText
+                    android:id="@+id/edit_loc"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:hint="@string/hintLoc"
+                    android:inputType="text"
+                    android:textAlignment="center" />
+            </TableRow>
+
+
+            <TableRow android:padding="5dip">
+
+                <Button
+                    android:id="@+id/button_filter_temp"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:text="@string/filterTemp" />
+
+                <EditText
+                    android:id="@+id/edit_temp"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:hint="@string/hintTemp"
+                    android:inputType="number"
+                    android:textAlignment="center" />
+            </TableRow>
+
+            <TableRow android:padding="5dip">
+
+                <Button
+                    android:id="@+id/button_filter_date"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:text="@string/filterDate" />
+
+                <EditText
+                    android:id="@+id/edit_date"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:hint="@string/hintDate"
+                    android:inputType="date"
+                    android:textAlignment="center" />
+            </TableRow>
+
+            <TableRow android:padding="5dip">
+
+                <Button
+                    android:id="@+id/button_filter_hottest"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:text="@string/filterHot" />
+
+                <EditText
+                    android:id="@+id/edit_hottest"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:hint="@string/hintHot"
+                    android:inputType="number"
+                    android:textAlignment="center" />
+            </TableRow>
+
+
+
+        </TableLayout>
+
+        <ListView
+            android:id="@+id/listView_Data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

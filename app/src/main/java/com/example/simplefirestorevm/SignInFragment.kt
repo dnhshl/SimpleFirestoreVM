@@ -1,4 +1,4 @@
-package com.example.firebaseauthvm
+package com.example.simplefirestorevm
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.firebaseauthvm.databinding.FragmentSigninBinding
-import com.example.firebaseauthvm.model.LoginViewModel
+import com.example.simplefirestorevm.databinding.FragmentSigninBinding
+import com.example.simplefirestorevm.model.LoginViewModel
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -44,7 +44,7 @@ class SignInFragment : Fragment() {
             val password = binding.editTextPassword.text.toString()
             if (validateForm(email, password)) {
                 vm.signUp(email, password)
-                findNavController().navigate(R.id.loginStatusFragment)
+                findNavController().navigate(R.id.enterDataFragment)
             }
         }
         binding.btnLogin.setOnClickListener {
@@ -52,7 +52,7 @@ class SignInFragment : Fragment() {
             val password = binding.editTextPassword.text.toString()
             if (validateForm(email, password)) {
                 vm.signIn(email, password)
-                findNavController().navigate(R.id.loginStatusFragment)
+                findNavController().navigate(R.id.enterDataFragment)
             }
         }
         binding.textViewPWReset.setOnClickListener {

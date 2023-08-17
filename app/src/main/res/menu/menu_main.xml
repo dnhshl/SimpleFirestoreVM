@@ -1,11 +1,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.firebaseauthvm.MainActivity">
+    tools:context="com.example.simplefirestorevm.MainActivity">
+    <item
+        android:id="@+id/action_enter_data"
+        android:orderInCategory="100"
+        android:title="@string/action_enter_data"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_filter_data"
+        android:orderInCategory="100"
+        android:title="@string/action_filter_data"
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_login"
         android:orderInCategory="100"
         android:title="@string/action_login"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_login_status"
+        android:orderInCategory="100"
+        android:title="@string/action_login_status"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_logout"

@@ -1,4 +1,4 @@
-package com.example.firebaseauthvm
+package com.example.simplefirestorevm
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import com.example.firebaseauthvm.databinding.FragmentLoginstatusBinding
-import com.example.firebaseauthvm.model.LoginState
-import com.example.firebaseauthvm.model.LoginViewModel
+import com.example.simplefirestorevm.databinding.FragmentLoginstatusBinding
+import com.example.simplefirestorevm.model.LoginState
+import com.example.simplefirestorevm.model.LoginViewModel
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.

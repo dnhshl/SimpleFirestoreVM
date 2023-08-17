@@ -1,4 +1,4 @@
-package com.example.firebaseauthvm
+package com.example.simplefirestorevm
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -10,8 +10,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-import com.example.firebaseauthvm.databinding.ActivityMainBinding
-import com.example.firebaseauthvm.model.LoginViewModel
+import com.example.simplefirestorevm.databinding.ActivityMainBinding
+import com.example.simplefirestorevm.model.LoginViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -50,6 +50,18 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_login -> {
                 navController.navigate(R.id.signInFragment)
+                true
+            }
+            R.id.action_login_status -> {
+                navController.navigate(R.id.loginStatusFragment)
+                true
+            }
+            R.id.action_enter_data -> {
+                navController.navigate(R.id.enterDataFragment)
+                true
+            }
+            R.id.action_filter_data -> {
+                navController.navigate(R.id.filterDataFragment)
                 true
             }
             R.id.action_logout -> {

@@ -3,15 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginStatusFragment">
+    app:startDestination="@id/enterDataFragment">
     <fragment
         android:id="@+id/loginStatusFragment"
-        android:name="com.example.firebaseauthvm.LoginStatusFragment"
+        android:name="com.example.simplefirestorevm.LoginStatusFragment"
         android:label="@string/loginstatus_fragment_label"
         tools:layout="@layout/fragment_loginstatus" />
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.example.firebaseauthvm.SignInFragment"
+        android:name="com.example.simplefirestorevm.SignInFragment"
         android:label="@string/signin_fragment_label"
         tools:layout="@layout/fragment_signin" />
+    <fragment
+        android:id="@+id/enterDataFragment"
+        android:name="com.example.simplefirestorevm.EnterDataFragment"
+        android:label="@string/enter_data_fragment_label"
+        tools:layout="@layout/fragment_enter_data" />
+    <fragment
+        android:id="@+id/filterDataFragment"
+        android:name="com.example.simplefirestorevm.FilterDataFragment"
+        android:label="@string/filter_data_fragment_label"
+        tools:layout="@layout/fragment_filter_data" />
 </navigation>

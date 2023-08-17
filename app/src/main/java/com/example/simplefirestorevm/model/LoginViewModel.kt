@@ -1,4 +1,4 @@
-package com.example.firebaseauthvm.model
+package com.example.simplefirestorevm.model
 
 import android.util.Log
 import androidx.lifecycle.LiveData

@@ -1,4 +1,4 @@
-package com.example.firebaseauthvm
+package com.example.simplefirestorevm
 
 import org.junit.Test
 
