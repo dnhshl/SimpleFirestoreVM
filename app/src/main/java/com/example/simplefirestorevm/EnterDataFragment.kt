@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.example.simplefirestorevm.databinding.FragmentEnterDataBinding
 import com.example.simplefirestorevm.databinding.FragmentLoginstatusBinding
+import com.example.simplefirestorevm.firestore.Sensordata
+import com.example.simplefirestorevm.firestore.convertDateStringToTimestamp
 import com.example.simplefirestorevm.model.FirestoreViewModel
 import com.example.simplefirestorevm.model.LoginState
 import com.example.simplefirestorevm.model.LoginViewModel
@@ -57,8 +59,14 @@ class EnterDataFragment : Fragment() {
             if (sRaum.isEmpty() || sTemp.isEmpty() || sHum.isEmpty() || sDate.isEmpty()) {
                 Log.i(">>>>", "Eingabefehler: Data Missing")
             } else {
-                dbvm.writeDataToFirestore(sRaum, sTemp, sHum, sDate)
-                Log.i(">>>>", "$sRaum $sTemp $sHum $sDate")
+                val sensordata = Sensordata(
+                    location = sRaum,
+                    temperature = sTemp.toInt(),
+                    humidity = sHum.toInt(),
+                    timestamp = convertDateStringToTimestamp(sDate)
+                )
+                dbvm.writeDataToFirestore(sensordata)
+                Log.i(">>>>", "writing ${sensordata.toString()}")
             }
         }
     }
