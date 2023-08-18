@@ -74,6 +74,22 @@ class EnterDataFragment : Fragment() {
             }
         }
 
+        binding.btnDelete.setOnClickListener {
+            val sRaum = binding.etRoom.text.toString()
+            val sTemp = binding.etTemp.text.toString()
+            val sHum = binding.etAir.text.toString()
+            val sDate = binding.etDate.text.toString()
+
+            val sensordata = Sensordata(
+                location = sRaum,
+                temperature = sTemp.toInt(),
+                humidity = sHum.toInt(),
+                timestamp = convertDateStringToTimestamp(sDate)
+            )
+
+            dbvm.deleteSensorData(sensordata)
+        }
+
         dbvm.sensordataList.observe(viewLifecycleOwner) { sensordata ->
             val adapter = ArrayAdapter(requireContext(),
                 android.R.layout.simple_list_item_1, sensordata)

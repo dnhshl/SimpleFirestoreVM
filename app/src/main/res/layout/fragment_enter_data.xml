@@ -68,25 +68,17 @@
         app:layout_constraintStart_toStartOf="@+id/etDate"
         app:layout_constraintTop_toBottomOf="@+id/etDate" />
 
-    <EditText
-        android:id="@+id/edit_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_column="1"
-        android:hint="@string/hintDelete"
-        android:inputType="number"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="@+id/etRoom"
-        app:layout_constraintTop_toBottomOf="@+id/btnAdd" />
-
     <Button
-        android:id="@+id/button_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/btnDelete"
+        android:layout_width="212dp"
+        android:layout_height="46dp"
         android:layout_column="0"
+        android:layout_marginTop="5dp"
         android:text="@string/filterDelete"
-        app:layout_constraintBottom_toBottomOf="@+id/edit_delete"
-        app:layout_constraintStart_toStartOf="@+id/btnAdd" />
+        app:layout_constraintEnd_toEndOf="@+id/btnAdd"
+        app:layout_constraintHorizontal_bias="0.357"
+        app:layout_constraintStart_toStartOf="@+id/btnAdd"
+        app:layout_constraintTop_toBottomOf="@+id/btnAdd" />
 
     <TextView
         android:id="@+id/tvLoginStatus"

@@ -175,7 +175,28 @@ class FirestoreViewModel : ViewModel() {
         }
     }
 
-
+    fun deleteSensorData(sensordata: Sensordata) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val query = sensordataCollectionRef
+                .whereEqualTo("location", sensordata.location)
+                .whereEqualTo("temperature", sensordata.temperature)
+                .whereEqualTo("humidity", sensordata.humidity)
+                .whereEqualTo("timestamp", sensordata.timestamp)
+                .get()
+                .await()
+            if (query.documents.isNotEmpty()) {
+                for (document in query) {
+                    try {
+                        sensordataCollectionRef.document(document.id).delete().await()
+                    } catch (e: Exception) {
+                        Log.i(">>>","Error deleting data $e")
+                    }
+                }
+            } else {
+                Log.i(">>>","No matching entry")
+            }
+        }
+    }
 
     private fun subscribeToRealtimeUpdates() {
         sensordataCollectionRef.addSnapshotListener { querySnapshot, firebaseFirestoreException ->

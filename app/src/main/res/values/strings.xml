@@ -49,7 +49,7 @@
     <string name="filterTemp">Filter Temp >= </string>
     <string name="filterDate">Filter Datum</string>
     <string name="filterHot">Filter wärmste top</string>
-    <string name="filterDelete">Lösche ID </string>
+    <string name="filterDelete">Lösche</string>
     <string name="filterReset">Filter zurücksetzen</string>
     <string name="hintLoc">Ort</string>
     <string name="hintTemp">Temp</string>
