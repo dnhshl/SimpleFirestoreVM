@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
 import com.example.simplefirestorevm.databinding.FragmentEnterDataBinding
 import com.example.simplefirestorevm.databinding.FragmentLoginstatusBinding
@@ -69,10 +70,12 @@ class EnterDataFragment : Fragment() {
                 Log.i(">>>>", "writing ${sensordata.toString()}")
             }
         }
-    }
 
-    private fun writeDataToDb() {
-
+        dbvm.sensordataList.observe(viewLifecycleOwner) { sensordata ->
+            val adapter = ArrayAdapter(requireContext(),
+                android.R.layout.simple_list_item_1, sensordata)
+            binding.listView.adapter = adapter
+        }
     }
 
 
