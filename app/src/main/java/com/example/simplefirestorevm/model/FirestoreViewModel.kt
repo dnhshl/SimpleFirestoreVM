@@ -6,12 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.simplefirestorevm.firestore.Sensordata
+import com.example.simplefirestorevm.firestore.convertDateStringToTimestamp
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
@@ -80,6 +82,100 @@ class FirestoreViewModel : ViewModel() {
             }
         }
     }
+
+    fun getSensorDataFilteredByLocation(location: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val querySnapshot =
+                    sensordataCollectionRef
+                        .whereEqualTo("location", location)
+                        .get()
+                        .await()
+                val dataList = mutableListOf<Sensordata>()
+                for(document in querySnapshot.documents) {
+                    val data = document.toObject(Sensordata::class.java)
+                    dataList.add(data!!)
+                }
+                withContext(Dispatchers.Main) {
+                    _sensordataList.value = dataList
+                }
+            } catch(e: Exception) {
+                Log.i(">>>", "Error retrieving data $e")
+            }
+        }
+    }
+
+    fun getSensorDataFilteredByTemperature(temperature: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val querySnapshot =
+                    sensordataCollectionRef
+                        .whereGreaterThanOrEqualTo("temperature", temperature)
+                        .get()
+                        .await()
+                val dataList = mutableListOf<Sensordata>()
+                for(document in querySnapshot.documents) {
+                    val data = document.toObject(Sensordata::class.java)
+                    dataList.add(data!!)
+                }
+                withContext(Dispatchers.Main) {
+                    _sensordataList.value = dataList
+                }
+            } catch(e: Exception) {
+                Log.i(">>>", "Error retrieving data $e")
+            }
+        }
+    }
+
+    fun getSensorDataFilteredByDate(date: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val startOfDay = convertDateStringToTimestamp(date + " 00:00")
+                val endOfDay = convertDateStringToTimestamp(date + " 23:59")
+                val querySnapshot =
+                    sensordataCollectionRef
+                        .whereGreaterThanOrEqualTo("timestamp", startOfDay)
+                        .whereLessThanOrEqualTo("timestamp", endOfDay)
+                        .get()
+                        .await()
+                val dataList = mutableListOf<Sensordata>()
+                for(document in querySnapshot.documents) {
+                    val data = document.toObject(Sensordata::class.java)
+                    dataList.add(data!!)
+                }
+                withContext(Dispatchers.Main) {
+                    _sensordataList.value = dataList
+                }
+            } catch(e: Exception) {
+                Log.i(">>>", "Error retrieving data $e")
+            }
+        }
+    }
+
+    fun getSensorDataFilteredByHottestTopX(topX: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                 val querySnapshot =
+                    sensordataCollectionRef
+                        .orderBy("temperature", Query.Direction.DESCENDING)
+                        .limit(topX.toLong())
+                        .get()
+                        .await()
+                val dataList = mutableListOf<Sensordata>()
+                for(document in querySnapshot.documents) {
+                    val data = document.toObject(Sensordata::class.java)
+                    dataList.add(data!!)
+                }
+                withContext(Dispatchers.Main) {
+                    _sensordataList.value = dataList
+                }
+            } catch(e: Exception) {
+                Log.i(">>>", "Error retrieving data $e")
+            }
+        }
+    }
+
+
 
     private fun subscribeToRealtimeUpdates() {
         sensordataCollectionRef.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
