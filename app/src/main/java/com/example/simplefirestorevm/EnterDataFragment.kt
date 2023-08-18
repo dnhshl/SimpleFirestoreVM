@@ -3,14 +3,13 @@ package com.example.simplefirestorevm
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.simplefirestorevm.databinding.FragmentEnterDataBinding
-import com.example.simplefirestorevm.databinding.FragmentLoginstatusBinding
 import com.example.simplefirestorevm.firestore.Sensordata
 import com.example.simplefirestorevm.firestore.convertDateStringToTimestamp
 import com.example.simplefirestorevm.model.FirestoreViewModel
@@ -30,7 +29,7 @@ class EnterDataFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentEnterDataBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -70,7 +69,7 @@ class EnterDataFragment : Fragment() {
                     timestamp = convertDateStringToTimestamp(sDate)
                 )
                 dbvm.writeDataToFirestore(sensordata)
-                Log.i(">>>>", "writing ${sensordata.toString()}")
+                Log.i(">>>>", "writing $sensordata")
             }
         }
 

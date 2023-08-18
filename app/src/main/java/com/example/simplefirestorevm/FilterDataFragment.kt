@@ -1,17 +1,14 @@
 package com.example.simplefirestorevm
 
 import android.R
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.simplefirestorevm.databinding.FragmentEnterDataBinding
 import com.example.simplefirestorevm.databinding.FragmentFilterDataBinding
-import com.example.simplefirestorevm.databinding.FragmentLoginstatusBinding
 import com.example.simplefirestorevm.model.FirestoreViewModel
 
 class FilterDataFragment : Fragment() {
@@ -25,7 +22,7 @@ class FilterDataFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFilterDataBinding.inflate(inflater, container, false)
         return binding.root
     }
