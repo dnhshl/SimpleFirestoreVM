@@ -37,13 +37,21 @@ class FirestoreViewModel : ViewModel() {
     }
     init {
         auth.addAuthStateListener(authStateListener)
+
+        val uid = auth.currentUser?.uid ?: "no_user"
+        sensordataCollectionRef =
+            Firebase.firestore.collection("users")
+                .document(uid)
+                .collection("Sensordata")
+
+        subscribeToRealtimeUpdates()
     }
 
     fun writeDataToFirestore(sensordata: Sensordata) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 sensordataCollectionRef.add(sensordata).await()
-                getAllSensorData()
+                //getAllSensorData()
             }
             catch(e: Exception) { Log.i(">>>", "Error writing Data: $e") }
         }
@@ -72,6 +80,25 @@ class FirestoreViewModel : ViewModel() {
             }
         }
     }
+
+    private fun subscribeToRealtimeUpdates() {
+        sensordataCollectionRef.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            firebaseFirestoreException?.let {
+                Log.i(">>>", "Realtime Update Error: $it")
+                return@addSnapshotListener
+            }
+            querySnapshot?.let {
+                val dataList = mutableListOf<Sensordata>()
+                for(document in querySnapshot.documents) {
+                    val data = document.toObject(Sensordata::class.java)
+                    dataList.add(data!!)
+                }
+                _sensordataList.value = dataList
+
+            }
+        }
+    }
+
 }
 
 
