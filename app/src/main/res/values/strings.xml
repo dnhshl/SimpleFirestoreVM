@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FirebaseAuthVM</string>
+    <string name="app_name">SimpleFirestore</string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="action_login">Login</string>
