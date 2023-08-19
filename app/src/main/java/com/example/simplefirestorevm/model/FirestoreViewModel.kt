@@ -60,7 +60,7 @@ class FirestoreViewModel : ViewModel() {
     private var _sensordataList = MutableLiveData<List<Sensordata>>()
     val sensordataList: LiveData<List<Sensordata>>
         get() = _sensordataList
-    
+
     fun getFilteredData(filters: List<FilterCondition> = listOf(),
                         orders: List<OrderCondition> = listOf(),
                         limit: Int? = null) {
