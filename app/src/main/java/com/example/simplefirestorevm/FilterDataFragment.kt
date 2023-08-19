@@ -9,7 +9,12 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.simplefirestorevm.databinding.FragmentFilterDataBinding
+import com.example.simplefirestorevm.firestore.ConditionType
+import com.example.simplefirestorevm.firestore.FilterCondition
+import com.example.simplefirestorevm.firestore.OrderCondition
+import com.example.simplefirestorevm.firestore.convertDateStringToTimestamp
 import com.example.simplefirestorevm.model.FirestoreViewModel
+import com.google.firebase.firestore.Query
 
 class FilterDataFragment : Fragment() {
     private var _binding: FragmentFilterDataBinding? = null
@@ -32,23 +37,38 @@ class FilterDataFragment : Fragment() {
 
         binding.buttonFilterDate.setOnClickListener {
             val date = binding.editDate.text.toString()
-            dbvm.getSensorDataFilteredByDate(date)
+            val startOfDay = convertDateStringToTimestamp(date + " 00:00")
+            val endOfDay = convertDateStringToTimestamp(date + " 23:59")
+            val filters = listOf(
+                FilterCondition("timestamp", ConditionType.GREATER_THAN_OR_EQUAL, startOfDay),
+                FilterCondition("timestamp", ConditionType.LESS_THAN_OR_EQUAL, endOfDay)
+            )
+            dbvm.getFilteredData(filters = filters)
         }
 
 
         binding.buttonFilterLoc.setOnClickListener {
             val location = binding.editLoc.text.toString()
-            dbvm.getSensorDataFilteredByLocation(location)
+            val filters = listOf(
+                FilterCondition("location", ConditionType.EQUAL_TO, location)
+            )
+            dbvm.getFilteredData(filters = filters)
         }
 
         binding.buttonFilterTemp.setOnClickListener {
             val temperature = binding.editTemp.text.toString().toInt()
-            dbvm.getSensorDataFilteredByTemperature(temperature)
+            val filters = listOf(
+              FilterCondition("temperature", ConditionType.GREATER_THAN_OR_EQUAL, temperature)
+            )
+            dbvm.getFilteredData(filters = filters)
         }
 
         binding.buttonFilterHottest.setOnClickListener {
             val topX = binding.editHottest.text.toString().toInt()
-            dbvm.getSensorDataFilteredByHottestTopX(topX)
+            val orders = listOf(
+                OrderCondition("temperature", Query.Direction.DESCENDING)
+            )
+            dbvm.getFilteredData(orders = orders, limit = topX)
         }
 
         dbvm.sensordataList.observe(viewLifecycleOwner) { sensordata ->

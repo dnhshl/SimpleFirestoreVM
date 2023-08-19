@@ -4,15 +4,17 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.simplefirestorevm.firestore.ConditionType
+import com.example.simplefirestorevm.firestore.FilterCondition
+import com.example.simplefirestorevm.firestore.OrderCondition
 import com.example.simplefirestorevm.firestore.Sensordata
-import com.example.simplefirestorevm.firestore.convertDateStringToTimestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -44,7 +46,7 @@ class FirestoreViewModel : ViewModel() {
     }
 
     fun writeDataToFirestore(sensordata: Sensordata) {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 sensordataCollectionRef.add(sensordata).await()
                 //getAllSensorData()
@@ -58,103 +60,31 @@ class FirestoreViewModel : ViewModel() {
     private var _sensordataList = MutableLiveData<List<Sensordata>>()
     val sensordataList: LiveData<List<Sensordata>>
         get() = _sensordataList
-
-    fun getAllSensorData() {
-        CoroutineScope(Dispatchers.IO).launch {
+    
+    fun getFilteredData(filters: List<FilterCondition> = listOf(),
+                        orders: List<OrderCondition> = listOf(),
+                        limit: Int? = null) {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                val querySnapshot = sensordataCollectionRef.get().await()
-                val dataList = mutableListOf<Sensordata>()
-                for(document in querySnapshot.documents) {
-                    val data = document.toObject(Sensordata::class.java)
-                    dataList.add(data!!)
+                var query: Query = sensordataCollectionRef
+                // Apply filters to the query if provided
+                filters.forEach { filter ->
+                    query = when (filter.type) {
+                        ConditionType.EQUAL_TO -> query.whereEqualTo(filter.field, filter.value)
+                        ConditionType.GREATER_THAN_OR_EQUAL -> query.whereGreaterThanOrEqualTo(filter.field, filter.value)
+                        ConditionType.LESS_THAN_OR_EQUAL -> query.whereLessThanOrEqualTo(filter.field, filter.value)
+                    }
                 }
-                withContext(Dispatchers.Main) {
-                    _sensordataList.value = dataList
+                // Apply Order Conditions if provided
+                orders.forEach { order ->
+                    query.orderBy(order.field, order.direction)
                 }
-            } catch(e: Exception) {
-                Log.i(">>>", "Error retrieving data $e")
-            }
-        }
-    }
-
-    fun getSensorDataFilteredByLocation(location: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val querySnapshot =
-                    sensordataCollectionRef
-                        .whereEqualTo("location", location)
-                        .get()
-                        .await()
-                val dataList = mutableListOf<Sensordata>()
-                for(document in querySnapshot.documents) {
-                    val data = document.toObject(Sensordata::class.java)
-                    dataList.add(data!!)
+                // Apply limit if provided
+                limit?.let {
+                    query = query.limit(it.toLong())
                 }
-                withContext(Dispatchers.Main) {
-                    _sensordataList.value = dataList
-                }
-            } catch(e: Exception) {
-                Log.i(">>>", "Error retrieving data $e")
-            }
-        }
-    }
-
-    fun getSensorDataFilteredByTemperature(temperature: Int) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val querySnapshot =
-                    sensordataCollectionRef
-                        .whereGreaterThanOrEqualTo("temperature", temperature)
-                        .get()
-                        .await()
-                val dataList = mutableListOf<Sensordata>()
-                for(document in querySnapshot.documents) {
-                    val data = document.toObject(Sensordata::class.java)
-                    dataList.add(data!!)
-                }
-                withContext(Dispatchers.Main) {
-                    _sensordataList.value = dataList
-                }
-            } catch(e: Exception) {
-                Log.i(">>>", "Error retrieving data $e")
-            }
-        }
-    }
-
-    fun getSensorDataFilteredByDate(date: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val startOfDay = convertDateStringToTimestamp(date + " 00:00")
-                val endOfDay = convertDateStringToTimestamp(date + " 23:59")
-                val querySnapshot =
-                    sensordataCollectionRef
-                        .whereGreaterThanOrEqualTo("timestamp", startOfDay)
-                        .whereLessThanOrEqualTo("timestamp", endOfDay)
-                        .get()
-                        .await()
-                val dataList = mutableListOf<Sensordata>()
-                for(document in querySnapshot.documents) {
-                    val data = document.toObject(Sensordata::class.java)
-                    dataList.add(data!!)
-                }
-                withContext(Dispatchers.Main) {
-                    _sensordataList.value = dataList
-                }
-            } catch(e: Exception) {
-                Log.i(">>>", "Error retrieving data $e")
-            }
-        }
-    }
-
-    fun getSensorDataFilteredByHottestTopX(topX: Int) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                 val querySnapshot =
-                    sensordataCollectionRef
-                        .orderBy("temperature", Query.Direction.DESCENDING)
-                        .limit(topX.toLong())
-                        .get()
-                        .await()
+                // Do the query
+                val querySnapshot = query.get().await()
                 val dataList = mutableListOf<Sensordata>()
                 for(document in querySnapshot.documents) {
                     val data = document.toObject(Sensordata::class.java)
@@ -170,7 +100,7 @@ class FirestoreViewModel : ViewModel() {
     }
 
     fun deleteSensorData(sensordata: Sensordata) {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val query = sensordataCollectionRef
                 .whereEqualTo("location", sensordata.location)
                 .whereEqualTo("temperature", sensordata.temperature)
@@ -209,6 +139,11 @@ class FirestoreViewModel : ViewModel() {
             }
         }
     }
+
+
+
+
+
 
 }
 

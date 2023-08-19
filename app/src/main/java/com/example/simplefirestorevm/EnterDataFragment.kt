@@ -37,7 +37,7 @@ class EnterDataFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dbvm.getAllSensorData()
+        dbvm.getFilteredData()
 
         authvm.loginState.observe(viewLifecycleOwner) { loginState ->
             when (loginState) {
