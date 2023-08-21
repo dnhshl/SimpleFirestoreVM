@@ -13,7 +13,6 @@ import com.example.simplefirestorevm.databinding.FragmentEnterDataBinding
 import com.example.simplefirestorevm.firestore.Sensordata
 import com.example.simplefirestorevm.firestore.convertDateStringToTimestamp
 import com.example.simplefirestorevm.model.FirestoreViewModel
-import com.example.simplefirestorevm.model.LoginState
 import com.example.simplefirestorevm.model.LoginViewModel
 
 
@@ -39,17 +38,22 @@ class EnterDataFragment : Fragment() {
 
         dbvm.getFilteredData()
 
-        authvm.loginState.observe(viewLifecycleOwner) { loginState ->
-            when (loginState) {
-                LoginState.LoggedIn -> {
-                    binding.tvLoginStatus.text = getString(R.string.loggedinOK)
-                    binding.tvLoginStatus.setTextColor(Color.GREEN)
-                }
-                else -> {
-                    binding.tvLoginStatus.text = getString(R.string.loggedinNOK)
-                    binding.tvLoginStatus.setTextColor(Color.RED)
-                }
+        // observe user to display login status
+        authvm.user.observe(viewLifecycleOwner) { user ->
+            if (user == null){
+                binding.tvLoginStatus.text = getString(R.string.loggedinNOK)
+                binding.tvLoginStatus.setTextColor(Color.RED)
+
+                dbvm.setSensordataCollectionRef("noname")
+            } else {
+                var statusmsg = getString(R.string.loggedin).format(user.email)
+                if (!user.displayName.isNullOrEmpty()) statusmsg += " (${user.displayName})"
+                binding.tvLoginStatus.text = statusmsg
+                binding.tvLoginStatus.setTextColor(Color.GREEN)
+
+                dbvm.setSensordataCollectionRef(user.uid)
             }
+
         }
 
 

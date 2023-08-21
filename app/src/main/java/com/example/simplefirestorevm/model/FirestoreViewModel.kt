@@ -9,8 +9,6 @@ import com.example.simplefirestorevm.firestore.ConditionType
 import com.example.simplefirestorevm.firestore.FilterCondition
 import com.example.simplefirestorevm.firestore.OrderCondition
 import com.example.simplefirestorevm.firestore.Sensordata
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -23,20 +21,9 @@ import kotlinx.coroutines.withContext
 class FirestoreViewModel : ViewModel() {
 
 
-    // Keep current user and collection up to date
-    private val auth = Firebase.auth
     private lateinit var sensordataCollectionRef: CollectionReference
-    private val authStateListener = FirebaseAuth.AuthStateListener { auth ->
-        val uid = auth.currentUser?.uid ?: "no_user"
-        sensordataCollectionRef =
-            Firebase.firestore.collection("users")
-                 .document(uid)
-                 .collection("Sensordata")
-    }
-    init {
-        auth.addAuthStateListener(authStateListener)
 
-        val uid = auth.currentUser?.uid ?: "no_user"
+    fun setSensordataCollectionRef(uid: String) {
         sensordataCollectionRef =
             Firebase.firestore.collection("users")
                 .document(uid)
@@ -49,7 +36,6 @@ class FirestoreViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 sensordataCollectionRef.add(sensordata).await()
-                //getAllSensorData()
             }
             catch(e: Exception) { Log.i(">>>", "Error writing Data: $e") }
         }
@@ -139,12 +125,6 @@ class FirestoreViewModel : ViewModel() {
             }
         }
     }
-
-
-
-
-
-
 }
 
 

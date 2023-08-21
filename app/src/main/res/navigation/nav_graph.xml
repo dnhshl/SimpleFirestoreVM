@@ -5,16 +5,6 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/enterDataFragment">
     <fragment
-        android:id="@+id/loginStatusFragment"
-        android:name="com.example.simplefirestorevm.LoginStatusFragment"
-        android:label="@string/loginstatus_fragment_label"
-        tools:layout="@layout/fragment_loginstatus" />
-    <fragment
-        android:id="@+id/signInFragment"
-        android:name="com.example.simplefirestorevm.SignInFragment"
-        android:label="@string/signin_fragment_label"
-        tools:layout="@layout/fragment_signin" />
-    <fragment
         android:id="@+id/enterDataFragment"
         android:name="com.example.simplefirestorevm.EnterDataFragment"
         android:label="@string/enter_data_fragment_label"
@@ -24,4 +14,9 @@
         android:name="com.example.simplefirestorevm.FilterDataFragment"
         android:label="@string/filter_data_fragment_label"
         tools:layout="@layout/fragment_filter_data" />
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.example.simplefirestorevm.SignInFragment"
+        android:label="@string/signin_fragment_label"
+        tools:layout="@layout/fragment_signin" />
 </navigation>
