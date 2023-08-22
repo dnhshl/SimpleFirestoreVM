@@ -121,7 +121,6 @@ class FirestoreViewModel : ViewModel() {
                     dataList.add(data!!)
                 }
                 _sensordataList.value = dataList
-
             }
         }
     }
