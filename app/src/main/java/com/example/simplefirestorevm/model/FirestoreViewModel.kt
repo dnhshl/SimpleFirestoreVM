@@ -63,7 +63,7 @@ class FirestoreViewModel : ViewModel() {
                 }
                 // Apply Order Conditions if provided
                 orders.forEach { order ->
-                    query.orderBy(order.field, order.direction)
+                    query = query.orderBy(order.field, order.direction)
                 }
                 // Apply limit if provided
                 limit?.let {
@@ -126,8 +126,3 @@ class FirestoreViewModel : ViewModel() {
         }
     }
 }
-
-
-
-
-
